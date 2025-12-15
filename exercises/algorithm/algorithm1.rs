@@ -70,14 +70,49 @@ impl<T> LinkedList<T> {
         }
     }
 	pub fn merge(list_a:LinkedList<T>,list_b:LinkedList<T>) -> Self
-	{
-		//TODO
-		Self {
-            length: 0,
-            start: None,
-            end: None,
+	where
+        T: Ord + Clone, // 约束：元素可比较、可克隆（用于构建新链表）
+    {
+        let mut merged = LinkedList::new();
+        // 双指针：分别指向两个链表的当前节点
+        let mut curr_a = list_a.start;
+        let mut curr_b = list_b.start;
+
+        // 循环比较两个链表的当前节点，小值优先加入新链表
+        while let (Some(a_ptr), Some(b_ptr)) = (curr_a, curr_b) {
+            // 安全访问指针指向的节点（只读，无内存修改）
+            let a_node = unsafe { &*a_ptr.as_ptr() };
+            let b_node = unsafe { &*b_ptr.as_ptr() };
+
+            if a_node.val <= b_node.val {
+                // 克隆a节点的值加入新链表（避免移动原节点导致内存问题）
+                merged.add(a_node.val.clone());
+                // a指针后移
+                curr_a = a_node.next;
+            } else {
+                // 克隆b节点的值加入新链表
+                merged.add(b_node.val.clone());
+                // b指针后移
+                curr_b = b_node.next;
+            }
         }
-	}
+
+        // 处理list_a剩余的节点
+        while let Some(a_ptr) = curr_a {
+            let a_node = unsafe { &*a_ptr.as_ptr() };
+            merged.add(a_node.val.clone());
+            curr_a = a_node.next;
+        }
+
+        // 处理list_b剩余的节点
+        while let Some(b_ptr) = curr_b {
+            let b_node = unsafe { &*b_ptr.as_ptr() };
+            merged.add(b_node.val.clone());
+            curr_b = b_node.next;
+        }
+
+        merged
+    }
 }
 
 impl<T> Display for LinkedList<T>
