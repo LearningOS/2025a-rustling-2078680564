@@ -38,21 +38,8 @@ where
 
     pub fn add(&mut self, value: T) {
         //TODO
-       self.items.push(value);
-        self.count += 1;
-        // 2. 上浮操作：将新元素调整到堆的正确位置
-        let mut current_idx = self.count; // 新元素的索引（有效元素从1开始）
-        while current_idx > 1 {
-            let parent_idx = self.parent_idx(current_idx);
-            // 若当前元素与父元素满足比较器条件（最小堆：当前<父；最大堆：当前>父），则交换
-            if (self.comparator)(&self.items[current_idx], &self.items[parent_idx]) {
-                self.items.swap(current_idx, parent_idx);
-                current_idx = parent_idx; // 继续向上比较
-            } else {
-                break; // 不满足条件，停止上浮
-            }
-        }
     }
+
     fn parent_idx(&self, idx: usize) -> usize {
         idx / 2
     }
@@ -71,22 +58,10 @@ where
 
     fn smallest_child_idx(&self, idx: usize) -> usize {
         //TODO
-      let left_idx = self.left_child_idx(idx);
-        let right_idx = self.right_child_idx(idx);
-
-        // 若右孩子存在，比较左右孩子，返回符合比较器的优先子节点
-        if right_idx <= self.count {
-            if (self.comparator)(&self.items[right_idx], &self.items[left_idx]) {
-                right_idx
-            } else {
-                left_idx
-            }
-        } else {
-            // 仅左孩子存在，返回左孩子索引
-            left_idx
-        }
+		0
     }
 }
+
 impl<T> Heap<T>
 where
     T: Default + Ord,
@@ -110,28 +85,7 @@ where
 
     fn next(&mut self) -> Option<T> {
         //TODO
-      if self.is_empty() {
-            return None;
-        }
-
-        // 1. 移除并获取堆顶元素（索引1），同时将最后一个元素移到堆顶
-        let top_element = self.items.swap_remove(1);
-        self.count -= 1;
-
-        // 2. 下沉操作：将堆顶元素调整到正确位置
-        let mut current_idx = 1;
-        while self.children_present(current_idx) {
-            let priority_child_idx = self.smallest_child_idx(current_idx);
-            // 若当前元素与优先子节点不满足比较器条件，交换两者
-            if !(self.comparator)(&self.items[current_idx], &self.items[priority_child_idx]) {
-                self.items.swap(current_idx, priority_child_idx);
-                current_idx = priority_child_idx; // 继续向下比较
-            } else {
-                break; // 满足条件，停止下沉
-            }
-        }
-
-        Some(top_element)
+		None
     }
 }
 
