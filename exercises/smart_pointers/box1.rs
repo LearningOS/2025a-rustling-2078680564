@@ -22,7 +22,7 @@
 
 #[derive(PartialEq, Debug)]
 pub enum List {
-    Cons(i32, Box<List>), // 使用 Box 解决递归类型大小问题
+    Cons(i32, List),
     Nil,
 }
 
@@ -35,11 +35,11 @@ fn main() {
 }
 
 pub fn create_empty_list() -> List {
-    List::Nil
+    todo!()
 }
 
 pub fn create_non_empty_list() -> List {
-    List::Cons(1, Box::new(List::Cons(2, Box::new(List::Cons(3, Box::new(List::Nil))))))
+    todo!()
 }
 
 #[cfg(test)]
