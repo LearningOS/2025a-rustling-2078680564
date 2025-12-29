@@ -8,13 +8,10 @@
 // I AM NOT DONE
 
 struct ColorClassicStruct {
-    red: i32,
-    green: i32,
-    blue: i32,
+    // TODO: Something goes here
 }
 
-// 元组结构体：字段没有名字，只有类型
-struct ColorTupleStruct(i32, i32, i32);
+struct ColorTupleStruct(/* TODO: Something goes here */);
 
 // 单元结构体：没有字段
 #[derive(Debug)]
@@ -26,12 +23,8 @@ mod tests {
 
     #[test]
     fn classic_c_structs() {
-        // 实例化经典结构体
-        let green = ColorClassicStruct {
-            red: 0,
-            green: 255,
-            blue: 0,
-        };
+        // TODO: Instantiate a classic c struct!
+        // let green =
 
         assert_eq!(green.red, 0);
         assert_eq!(green.green, 255);
@@ -40,8 +33,8 @@ mod tests {
 
     #[test]
     fn tuple_structs() {
-        // 实例化元组结构体
-        let green = ColorTupleStruct(0, 255, 0);
+        // TODO: Instantiate a tuple struct!
+        // let green =
 
         assert_eq!(green.0, 0);
         assert_eq!(green.1, 255);
@@ -50,8 +43,8 @@ mod tests {
 
     #[test]
     fn unit_structs() {
-        // 实例化单元结构体
-        let unit_like_struct = UnitLikeStruct;
+        // TODO: Instantiate a unit-like struct!
+        // let unit_like_struct =
         let message = format!("{:?}s are fun!", unit_like_struct);
 
         assert_eq!(message, "UnitLikeStructs are fun!");
