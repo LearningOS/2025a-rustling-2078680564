@@ -29,14 +29,12 @@ impl Package {
         }
     }
 
-    // 判断是否为国际包裹
-    fn is_international(&self) -> bool {
-        self.sender_country != self.recipient_country
+    fn is_international(&self) -> ??? {
+        // Something goes here...
     }
 
-    // 计算运费（单位：分）
-    fn get_fees(&self, cents_per_gram: i32) -> i32 {
-        self.weight_in_grams * cents_per_gram
+    fn get_fees(&self, cents_per_gram: i32) -> ??? {
+        // Something goes here...
     }
 }
 
