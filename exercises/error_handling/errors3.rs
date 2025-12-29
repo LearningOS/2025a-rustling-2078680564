@@ -16,20 +16,13 @@ fn main() {
     let mut tokens = 100;
     let pretend_user_input = "8";
 
-    // 用match处理Result，避免使用?
-    match total_cost(pretend_user_input) {
-        Ok(cost) => {
-            if cost > tokens {
-                println!("You can't afford that many!");
-            } else {
-                tokens -= cost;
-                println!("You now have {} tokens.", tokens);
-            }
-        }
-        Err(e) => {
-            // 解析失败时打印错误信息
-            eprintln!("Failed to calculate cost: {}", e);
-        }
+    let cost = total_cost(pretend_user_input)?;
+
+    if cost > tokens {
+        println!("You can't afford that many!");
+    } else {
+        tokens -= cost;
+        println!("You now have {} tokens.", tokens);
     }
 }
 
