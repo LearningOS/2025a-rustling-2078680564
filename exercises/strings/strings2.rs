@@ -9,7 +9,7 @@
 
 fn main() {
     let word = String::from("green"); // Try not changing this line :)
-    if is_a_color_word(word) {
+    if is_a_color_word(&word) {  // 修复：传递引用
         println!("That is a color word I know!");
     } else {
         println!("That is not a color word I know.");
