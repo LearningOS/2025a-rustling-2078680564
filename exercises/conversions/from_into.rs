@@ -83,10 +83,12 @@ impl From<&str> for Person {
 }
 
 fn main() {
+    // Use the `from` function
     let p1 = Person::from("Mark,20");
+    // Since From is implemented for Person, we should be able to use Into
     let p2: Person = "Gerald,70".into();
-    println!("{:?}", p1); // Person { name: "Mark", age: 20 }
-    println!("{:?}", p2); // Person { name: "Gerald", age: 70 }
+    println!("{:?}", p1);
+    println!("{:?}", p2);
 }
 
 #[cfg(test)]
@@ -94,24 +96,29 @@ mod tests {
     use super::*;
     #[test]
     fn test_default() {
+        // Test that the default person is 30 year old John
         let dp = Person::default();
         assert_eq!(dp.name, "John");
         assert_eq!(dp.age, 30);
     }
     #[test]
     fn test_bad_convert() {
+        // Test that John is returned when bad string is provided
         let p = Person::from("");
         assert_eq!(p.name, "John");
         assert_eq!(p.age, 30);
     }
     #[test]
     fn test_good_convert() {
+        // Test that "Mark,20" works
         let p = Person::from("Mark,20");
         assert_eq!(p.name, "Mark");
         assert_eq!(p.age, 20);
     }
     #[test]
     fn test_bad_age() {
+        // Test that "Mark,twenty" will return the default person due to an
+        // error in parsing age
         let p = Person::from("Mark,twenty");
         assert_eq!(p.name, "John");
         assert_eq!(p.age, 30);
