@@ -4,19 +4,20 @@
 // hint.
 
 // I AM NOT DONE
+
 fn trim_me(input: &str) -> String {
-    // 移除字符串两端的空白字符
-    input.trim().to_string()
+    // TODO: Remove whitespace from both ends of a string!
+    ???
 }
 
 fn compose_me(input: &str) -> String {
-    // 在字符串后拼接 " world!"
-    format!("{} world!", input)
+    // TODO: Add " world!" to the string! There's multiple ways to do this!
+    ???
 }
 
 fn replace_me(input: &str) -> String {
-    // 将字符串中的 "cars" 替换为 "balloons"
-    input.replace("cars", "balloons")
+    // TODO: Replace "cars" in the string with "balloons"!
+    ???
 }
 
 #[cfg(test)]
