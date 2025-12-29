@@ -26,23 +26,41 @@ pub struct NotDivisibleError {
 // Calculate `a` divided by `b` if `a` is evenly divisible by `b`.
 // Otherwise, return a suitable error.
 pub fn divide(a: i32, b: i32) -> Result<i32, DivisionError> {
-    todo!();
+    // 第一步：处理除以0的情况
+    if b == 0 {
+        return Err(DivisionError::DivideByZero);
+    }
+    // 第二步：判断是否能整除
+    if a % b == 0 {
+        Ok(a / b) // 能整除，返回商
+    } else {
+        // 不能整除，返回NotDivisible错误（包含被除数和除数）
+        Err(DivisionError::NotDivisible(NotDivisibleError {
+            dividend: a,
+            divisor: b,
+        }))
+    }
 }
 
 // Complete the function and return a value of the correct type so the test
 // passes.
 // Desired output: Ok([1, 11, 1426, 3])
-fn result_with_list() -> () {
+fn result_with_list() -> Result<Vec<i32>, DivisionError> {
     let numbers = vec![27, 297, 38502, 81];
+    // 遍历每个数，调用divide(n, 27)，然后collect为Result<Vec<i32>, DivisionError>
+    // collect特性：所有Result都是Ok时，返回Ok(Vec)；有一个Err时，返回第一个Err
     let division_results = numbers.into_iter().map(|n| divide(n, 27));
+    division_results.collect()
 }
 
 // Complete the function and return a value of the correct type so the test
 // passes.
 // Desired output: [Ok(1), Ok(11), Ok(1426), Ok(3)]
-fn list_of_results() -> () {
+fn list_of_results() -> Vec<Result<i32, DivisionError>> {
     let numbers = vec![27, 297, 38502, 81];
+    // 遍历每个数，调用divide(n, 27)，然后collect为Vec<Result<i32, DivisionError>>
     let division_results = numbers.into_iter().map(|n| divide(n, 27));
+    division_results.collect()
 }
 
 #[cfg(test)]

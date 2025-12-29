@@ -51,13 +51,43 @@ enum ParsePersonError {
 
 impl FromStr for Person {
     type Err = ParsePersonError;
+
     fn from_str(s: &str) -> Result<Person, Self::Err> {
+        // 步骤1：空字符串返回 Empty 错误
+        if s.is_empty() {
+            return Err(ParsePersonError::Empty);
+        }
+
+        // 步骤2：按逗号分割字符串并收集到 Vec 中
+        let parts: Vec<&str> = s.split(',').collect();
+
+        // 步骤3：分割后必须恰好 2 个字段，否则返回 BadLen
+        if parts.len() != 2 {
+            return Err(ParsePersonError::BadLen);
+        }
+
+        // 步骤4：提取名字字段，检查是否为空
+        let name_part = parts[0];
+        if name_part.is_empty() {
+            return Err(ParsePersonError::NoName);
+        }
+
+        // 步骤5：解析年龄字段，失败则包装为 ParseInt 错误
+        let age = parts[1]
+            .parse::<usize>()
+            .map_err(ParsePersonError::ParseInt)?;
+
+        // 所有条件满足，返回成功的 Person 实例
+        Ok(Person {
+            name: name_part.to_string(),
+            age,
+        })
     }
 }
 
 fn main() {
     let p = "Mark,20".parse::<Person>().unwrap();
-    println!("{:?}", p);
+    println!("{:?}", p); // 输出：Person { name: "Mark", age: 20 }
 }
 
 #[cfg(test)]

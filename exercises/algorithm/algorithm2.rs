@@ -2,19 +2,17 @@
 	double linked list reverse
 	This problem requires you to reverse a doubly linked list
 */
-// I AM NOT DONE
 
 use std::fmt::{self, Display, Formatter};
 use std::ptr::NonNull;
 use std::vec::*;
-
 #[derive(Debug)]
 struct Node<T> {
     val: T,
     next: Option<NonNull<Node<T>>>,
     prev: Option<NonNull<Node<T>>>,
 }
-
+	
 impl<T> Node<T> {
     fn new(t: T) -> Node<T> {
         Node {
@@ -73,8 +71,28 @@ impl<T> LinkedList<T> {
         }
     }
 	pub fn reverse(&mut self){
-		// TODO
-	}
+        	// TODO
+	  if self.length <= 1 {
+            return;
+        }
+
+        // 1. 初始化当前节点指针，从原链表头部开始
+        let mut current = self.start;
+        // 2. 先交换整个链表的头部和尾部（反转后原尾部变头部，原头部变尾部）
+        std::mem::swap(&mut self.start, &mut self.end);
+
+        // 3. 遍历所有节点，逐个交换 prev 和 next 指针
+        while let Some(mut curr_ptr) = current {
+            // 安全获取可变节点引用（因链表自身持有所有权，无悬空指针风险）
+            let curr_node = unsafe { curr_ptr.as_mut() };
+            // 保存当前节点的原 next 指针（交换后会被覆盖，需提前留存）
+            let next_node = curr_node.next;
+            // 交换当前节点的 prev 和 next 指针
+            std::mem::swap(&mut curr_node.prev, &mut curr_node.next);
+            // 更新当前节点为原 next 节点，继续遍历
+            current = next_node;
+        }
+    }
 }
 
 impl<T> Display for LinkedList<T>

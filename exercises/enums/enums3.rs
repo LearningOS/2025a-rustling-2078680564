@@ -8,7 +8,14 @@
 // I AM NOT DONE
 
 enum Message {
-    // TODO: implement the message variant types based on their usage below
+    // 单元变体：无关联数据，对应退出操作
+    Quit,
+    // 元组变体：关联String，对应回显操作
+    Echo(String),
+    // 元组变体：关联Point结构体，对应移动位置操作
+    Move(Point),
+    // 元组变体：关联RGB颜色元组，对应修改颜色操作
+    ChangeColor(u8, u8, u8),
 }
 
 struct Point {
@@ -20,7 +27,7 @@ struct State {
     color: (u8, u8, u8),
     position: Point,
     quit: bool,
-    message: String
+    message: String,
 }
 
 impl State {
@@ -32,17 +39,26 @@ impl State {
         self.quit = true;
     }
 
-    fn echo(&mut self, s: String) { self.message = s }
+    fn echo(&mut self, s: String) {
+        self.message = s;
+    }
 
     fn move_position(&mut self, p: Point) {
         self.position = p;
     }
 
     fn process(&mut self, message: Message) {
-        // TODO: create a match expression to process the different message
-        // variants
-        // Remember: When passing a tuple as a function argument, you'll need
-        // extra parentheses: fn function((t, u, p, l, e))
+        // 匹配Message的不同变体，解构关联数据并调用对应方法
+        match message {
+            // 匹配Quit变体，调用quit方法
+            Message::Quit => self.quit(),
+            // 匹配Echo变体，解构出String并调用echo方法
+            Message::Echo(s) => self.echo(s),
+            // 匹配Move变体，解构出Point并调用move_position方法
+            Message::Move(p) => self.move_position(p),
+            // 匹配ChangeColor变体，解构出RGB三个值，组装成元组调用change_color
+            Message::ChangeColor(r, g, b) => self.change_color((r, g, b)),
+        }
     }
 }
 

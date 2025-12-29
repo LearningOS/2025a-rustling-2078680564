@@ -10,7 +10,8 @@
 
 // I AM NOT DONE
 
-fn longest(x: &str, y: &str) -> &str {
+// 添加生命周期注解<'a>，标注输入参数和返回值的生命周期
+fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
     if x.len() > y.len() {
         x
     } else {

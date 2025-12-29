@@ -4,12 +4,14 @@
 // hint.
 
 // I AM NOT DONE
-
 fn main() {
     let mut res = 42;
     let option = Some(12);
-    for x in option {
+
+    // 明确匹配Some变体，提取包裹值x
+    if let Some(x) = option {
         res += x;
     }
-    println!("{}", res);
+
+    println!("{}", res); // 输出：54
 }

@@ -38,42 +38,71 @@ enum IntoColorError {
 // that correct RGB color values must be integers in the 0..=255 range.
 
 // Tuple implementation
+fn convert_i16_to_u8(value: i16) -> Result<u8, IntoColorError> {
+    if (0..=255).contains(&value) {
+        Ok(value as u8)
+    } else {
+        Err(IntoColorError::IntConversion)
+    }
+}
+
+// 1. 实现从(i16, i16, i16)元组转换为Color
 impl TryFrom<(i16, i16, i16)> for Color {
     type Error = IntoColorError;
     fn try_from(tuple: (i16, i16, i16)) -> Result<Self, Self::Error> {
+        // 解构元组为红、绿、蓝三个分量
+        let (r, g, b) = tuple;
+        // 校验并转换每个分量，失败则返回IntConversion
+        let red = convert_i16_to_u8(r)?;
+        let green = convert_i16_to_u8(g)?;
+        let blue = convert_i16_to_u8(b)?;
+        // 所有分量合法，返回Color实例
+        Ok(Color { red, green, blue })
     }
 }
 
-// Array implementation
+// 2. 实现从[i16; 3]数组转换为Color
 impl TryFrom<[i16; 3]> for Color {
     type Error = IntoColorError;
     fn try_from(arr: [i16; 3]) -> Result<Self, Self::Error> {
+        // 解构数组为三个分量（编译期检查长度为3）
+        let [r, g, b] = arr;
+        let red = convert_i16_to_u8(r)?;
+        let green = convert_i16_to_u8(g)?;
+        let blue = convert_i16_to_u8(b)?;
+        Ok(Color { red, green, blue })
     }
 }
 
-// Slice implementation
+// 3. 实现从&[i16]切片转换为Color
 impl TryFrom<&[i16]> for Color {
     type Error = IntoColorError;
     fn try_from(slice: &[i16]) -> Result<Self, Self::Error> {
+        // 第一步：校验切片长度是否为3（运行期检查）
+        if slice.len() != 3 {
+            return Err(IntoColorError::BadLen);
+        }
+        // 第二步：校验并转换每个分量
+        let red = convert_i16_to_u8(slice[0])?;
+        let green = convert_i16_to_u8(slice[1])?;
+        let blue = convert_i16_to_u8(slice[2])?;
+        Ok(Color { red, green, blue })
     }
 }
 
 fn main() {
-    // Use the `try_from` function
     let c1 = Color::try_from((183, 65, 14));
-    println!("{:?}", c1);
+    println!("{:?}", c1); // Ok(Color { red: 183, green: 65, blue: 14 })
 
-    // Since TryFrom is implemented for Color, we should be able to use TryInto
     let c2: Result<Color, _> = [183, 65, 14].try_into();
-    println!("{:?}", c2);
+    println!("{:?}", c2); // Ok(Color { red: 183, green: 65, blue: 14 })
 
     let v = vec![183, 65, 14];
-    // With slice we should use `try_from` function
     let c3 = Color::try_from(&v[..]);
-    println!("{:?}", c3);
-    // or take slice within round brackets and use TryInto
+    println!("{:?}", c3); // Ok(Color { red: 183, green: 65, blue: 14 })
+
     let c4: Result<Color, _> = (&v[..]).try_into();
-    println!("{:?}", c4);
+    println!("{:?}", c4); // Ok(Color { red: 183, green: 65, blue: 14 })
 }
 
 #[cfg(test)]

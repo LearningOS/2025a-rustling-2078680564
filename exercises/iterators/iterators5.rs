@@ -33,9 +33,13 @@ fn count_for(map: &HashMap<String, Progress>, value: Progress) -> usize {
 }
 
 fn count_iterator(map: &HashMap<String, Progress>, value: Progress) -> usize {
-    // map is a hashmap with String keys and Progress values.
-    // map = { "variables1": Complete, "from_str": None, ... }
-    todo!();
+    // 核心逻辑：
+    // 1. map.values() 获取HashMap所有值的迭代器（类型：&Progress）；
+    // 2. filter 过滤出等于目标value的元素；
+    // 3. count() 统计过滤后的元素数量。
+    map.values()
+        .filter(|&val| val == &value)
+        .count()
 }
 
 fn count_collection_for(collection: &[HashMap<String, Progress>], value: Progress) -> usize {
@@ -51,10 +55,15 @@ fn count_collection_for(collection: &[HashMap<String, Progress>], value: Progres
 }
 
 fn count_collection_iterator(collection: &[HashMap<String, Progress>], value: Progress) -> usize {
-    // collection is a slice of hashmaps.
-    // collection = [{ "variables1": Complete, "from_str": None, ... },
-    //     { "variables2": Complete, ... }, ... ]
-    todo!();
+    // 核心逻辑：
+    // 1. collection.iter() 遍历切片中的每个HashMap；
+    // 2. flat_map 展平所有HashMap的values迭代器（将嵌套的迭代器转为一维）；
+    // 3. filter 过滤目标值；
+    // 4. count() 统计总数。
+    collection.iter()
+        .flat_map(|map| map.values())
+        .filter(|&val| val == &value)
+        .count()
 }
 
 #[cfg(test)]

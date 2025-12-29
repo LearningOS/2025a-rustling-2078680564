@@ -16,12 +16,15 @@
 use std::collections::HashMap;
 
 fn fruit_basket() -> HashMap<String, u32> {
-    let mut basket = // TODO: declare your hash map here.
+    // 声明可变的 HashMap 实例，Rust 会自动推断类型为 HashMap<String, u32>
+    let mut basket = HashMap::new();
 
-    // Two bananas are already given for you :)
+    // 已有的香蕉（2个）
     basket.insert(String::from("banana"), 2);
 
-    // TODO: Put more fruits in your basket here.
+    // 添加苹果（3个）和橙子（1个），满足「至少3种、总数≥5」的要求
+    basket.insert(String::from("apple"), 3);
+    basket.insert(String::from("orange"), 1);
 
     basket
 }

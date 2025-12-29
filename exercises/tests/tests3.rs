@@ -8,7 +8,6 @@
 // hint.
 
 // I AM NOT DONE
-
 pub fn is_even(num: i32) -> bool {
     num % 2 == 0
 }
@@ -19,11 +18,15 @@ mod tests {
 
     #[test]
     fn is_true_when_even() {
-        assert!();
+        assert_eq!(is_even(2), true);
+        assert_eq!(is_even(4), true);
+        assert_eq!(is_even(0), true); // 0 是偶数
     }
 
     #[test]
     fn is_false_when_odd() {
-        assert!();
+        assert_eq!(is_even(5), false);
+        assert_eq!(is_even(3), false);
+        assert_eq!(is_even(-1), false); // 负数也适用
     }
 }

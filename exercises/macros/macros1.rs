@@ -12,5 +12,6 @@ macro_rules! my_macro {
 }
 
 fn main() {
-    my_macro();
+    // 修复：宏调用必须带!，语法为 宏名!(参数)
+    my_macro!();
 }

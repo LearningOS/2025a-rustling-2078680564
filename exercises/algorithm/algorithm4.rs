@@ -51,12 +51,30 @@ where
     // Insert a value into the BST
     fn insert(&mut self, value: T) {
         //TODO
+    match &mut self.root {
+            Some(root_node) => {
+                // 根节点存在，调用TreeNode的插入方法递归处理
+                root_node.insert(value);
+            }
+            None => {
+                // 根节点不存在，初始化根节点
+                self.root = Some(Box::new(TreeNode::new(value)));
+            }
+        }
     }
 
     // Search for a value in the BST
     fn search(&self, value: T) -> bool {
         //TODO
-        true
+          let mut current = &self.root;
+        while let Some(node) = current {
+            match value.cmp(&node.value) {
+                Ordering::Equal => return true,  // 找到目标值
+                Ordering::Less => current = &node.left,  // 往左子树查找
+                Ordering::Greater => current = &node.right,  // 往右子树查找
+            }
+        }
+        false  // 遍历完未找到
     }
 }
 
@@ -67,9 +85,26 @@ where
     // Insert a node into the tree
     fn insert(&mut self, value: T) {
         //TODO
+     match value.cmp(&self.value) {
+            // 待插入值小于当前节点值：处理左子树
+            Ordering::Less => {
+                match &mut self.left {
+                    Some(left_node) => left_node.insert(value),  // 左子树存在，递归插入
+                    None => self.left = Some(Box::new(TreeNode::new(value))),  // 左子树为空，创建新节点
+                }
+            }
+            // 待插入值大于当前节点值：处理右子树
+            Ordering::Greater => {
+                match &mut self.right {
+                    Some(right_node) => right_node.insert(value),  // 右子树存在，递归插入
+                    None => self.right = Some(Box::new(TreeNode::new(value))),  // 右子树为空，创建新节点
+                }
+            }
+            // 重复值：不做任何处理（符合BST去重特性）
+            Ordering::Equal => return,
+        }
     }
 }
-
 
 #[cfg(test)]
 mod tests {

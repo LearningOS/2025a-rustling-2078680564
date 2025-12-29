@@ -6,12 +6,13 @@
 // I AM NOT DONE
 
 mod sausage_factory {
-    // Don't let anybody outside of this module see this!
+    // 保持私有，不让模块外访问
     fn get_secret_recipe() -> String {
         String::from("Ginger")
     }
 
-    fn make_sausage() {
+    // 标记为 pub，让模块外可以访问
+    pub fn make_sausage() {
         get_secret_recipe();
         println!("sausage!");
     }

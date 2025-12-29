@@ -29,8 +29,36 @@ impl Graph {
     fn bfs_with_return(&self, start: usize) -> Vec<usize> {
         
 		//TODO
+    if start >= self.adj.len() {
+            return vec![];
+        }
 
+        // 1. 初始化访问标记数组：记录节点是否已被访问，避免重复访问（处理有环图）
+        let mut visited = vec![false; self.adj.len()];
+        // 2. 初始化队列：用于存储待层级遍历的节点
+        let mut queue = VecDeque::new();
+        // 3. 初始化访问顺序向量
         let mut visit_order = vec![];
+
+        // 4. 起始节点入队，并标记为已访问
+        visited[start] = true;
+        queue.push_back(start);
+
+        // 5. 循环处理队列，直到队列为空
+        while let Some(current_node) = queue.pop_front() {
+            // 将当前节点加入访问顺序
+            visit_order.push(current_node);
+
+            // 遍历当前节点的所有邻接节点
+            for &neighbor in &self.adj[current_node] {
+                // 若邻接节点未被访问，标记后入队
+                if !visited[neighbor] {
+                    visited[neighbor] = true;
+                    queue.push_back(neighbor);
+                }
+            }
+        }
+
         visit_order
     }
 }
