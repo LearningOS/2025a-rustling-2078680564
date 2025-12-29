@@ -16,7 +16,6 @@
 mod tests {
     #[test]
     fn you_can_assert() {
-        let x = 5;
-        assert!(x > 3); // 条件成立，测试通过
+        assert!();
     }
 }
