@@ -99,9 +99,7 @@ where
             None => write!(f, "{}", self.val),
             }
         }
-        edges
     }
-}
 
 #[cfg(test)]
 mod tests {
