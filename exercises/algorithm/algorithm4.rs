@@ -66,15 +66,7 @@ where
     // Search for a value in the BST
     fn search(&self, value: T) -> bool {
         //TODO
-          let mut current = &self.root;
-        while let Some(node) = current {
-            match value.cmp(&node.value) {
-                Ordering::Equal => return true,  // 找到目标值
-                Ordering::Less => current = &node.left,  // 往左子树查找
-                Ordering::Greater => current = &node.right,  // 往右子树查找
-            }
-        }
-        false  // 遍历完未找到
+        true
     }
 }
 
@@ -93,18 +85,7 @@ where
                     None => self.left = Some(Box::new(TreeNode::new(value))),  // 左子树为空，创建新节点
                 }
             }
-            // 待插入值大于当前节点值：处理右子树
-            Ordering::Greater => {
-                match &mut self.right {
-                    Some(right_node) => right_node.insert(value),  // 右子树存在，递归插入
-                    None => self.right = Some(Box::new(TreeNode::new(value))),  // 右子树为空，创建新节点
-                }
-            }
-            // 重复值：不做任何处理（符合BST去重特性）
-            Ordering::Equal => return,
-        }
-    }
-}
+
 
 #[cfg(test)]
 mod tests {
