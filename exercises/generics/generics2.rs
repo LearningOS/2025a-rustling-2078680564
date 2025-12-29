@@ -8,14 +8,12 @@
 
 // I AM NOT DONE
 
-struct Wrapper<T> {
-    value: T, // 把固定的 u32 替换为泛型 T
+struct Wrapper {
+    value: u32,
 }
 
-// 为泛型结构体 Wrapper<T> 实现方法，注意 impl 后要声明泛型参数 T
-impl<T> Wrapper<T> {
-    // 方法参数和返回值中的 u32 都替换为 T
-    pub fn new(value: T) -> Self {
+impl Wrapper {
+    pub fn new(value: u32) -> Self {
         Wrapper { value }
     }
 }
