@@ -78,14 +78,11 @@ impl<T> myStack<T> {
     }
     pub fn pop(&mut self) -> Result<T, &str> {
         //TODO
-	        match self.q1.dequeue() {
-            Ok(val) => Ok(val),
-            Err(_) => Err("Stack is empty"),
-        }
+		Err("Stack is empty")
     }
     pub fn is_empty(&self) -> bool {
 		//TODO
-              self.q1.is_empty()
+        true
     }
 }
 
