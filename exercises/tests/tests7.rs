@@ -36,12 +36,20 @@
 
 // I AM NOT DONE
 
-use std::time::SystemTime;
+fn main() {}
 
-fn main() {
-    let timestamp = SystemTime::now()
-        .duration_since(SystemTime::UNIX_EPOCH)
-        .expect("Failed to get system time")
-        .as_secs();
-    println!("cargo:rustc-env=TEST_FOO={}", timestamp);
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_success() {
+        let timestamp = std::time::SystemTime::now()
+            .duration_since(std::time::UNIX_EPOCH)
+            .unwrap()
+            .as_secs();
+        let s = std::env::var("TEST_FOO").unwrap();
+        let e: u64 = s.parse().unwrap();
+        assert!(timestamp >= e && timestamp < e + 10);
+    }
 }
