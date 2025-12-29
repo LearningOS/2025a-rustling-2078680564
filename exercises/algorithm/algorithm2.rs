@@ -1,116 +1,161 @@
 /*
-	graph
-	This problem requires you to implement a basic graph functio
+	double linked list reverse
+	This problem requires you to reverse a doubly linked list
 */
 // I AM NOT DONE
 
-use std::collections::{HashMap, HashSet};
-use std::fmt;
-#[derive(Debug, Clone)]
-pub struct NodeNotInGraph;
-impl fmt::Display for NodeNotInGraph {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "accessing a node that is not in the graph")
+use std::fmt::{self, Display, Formatter};
+use std::ptr::NonNull;
+use std::vec::*;
+
+#[derive(Debug)]
+struct Node<T> {
+    val: T,
+    next: Option<NonNull<Node<T>>>,
+    prev: Option<NonNull<Node<T>>>,
+}
+
+impl<T> Node<T> {
+    fn new(t: T) -> Node<T> {
+        Node {
+            val: t,
+            prev: None,
+            next: None,
     }
 }
-pub struct UndirectedGraph {
-    adjacency_table: HashMap<String, Vec<(String, i32)>>,
 }
-impl Graph for UndirectedGraph {
-    fn new() -> UndirectedGraph {
-        UndirectedGraph {
-            adjacency_table: HashMap::new(),
+#[derive(Debug)]
+struct LinkedList<T> {
+    length: u32,
+    start: Option<NonNull<Node<T>>>,
+    end: Option<NonNull<Node<T>>>,
+}
+
+impl<T> Default for LinkedList<T> {
+    fn default() -> Self {
+        Self::new()
         }
     }
-    fn adjacency_table_mutable(&mut self) -> &mut HashMap<String, Vec<(String, i32)>> {
-        &mut self.adjacency_table
+
+impl<T> LinkedList<T> {
+    pub fn new() -> Self {
+        Self {
+            length: 0,
+            start: None,
+            end: None,
+        }
     }
-    fn adjacency_table(&self) -> &HashMap<String, Vec<(String, i32)>> {
-        &self.adjacency_table
+
+    pub fn add(&mut self, obj: T) {
+        let mut node = Box::new(Node::new(obj));
+        node.next = None;
+        node.prev = self.end;
+        let node_ptr = Some(unsafe { NonNull::new_unchecked(Box::into_raw(node)) });
+        match self.end {
+            None => self.start = node_ptr,
+            Some(end_ptr) => unsafe { (*end_ptr.as_ptr()).next = node_ptr },
+        }
+        self.end = node_ptr;
+        self.length += 1;
     }
-    fn add_edge(&mut self, edge: (&str, &str, i32)) {
-        //TODO
-         let (from, to, weight) = edge;
-        // 确保起点和终点都存在于图中（不存在则自动添加）
-        self.add_node(from);
-        self.add_node(to);
-        // 转换为String类型（适配HashMap的key/value类型）
-        let from_str = from.to_string();
-        let to_str = to.to_string();
-        // 无向图：向起点的邻接表添加终点和权重
-        self.adjacency_table_mutable()
-            .get_mut(&from_str)
-            .unwrap() // 已通过add_node确保存在，unwrap安全
-            .push((to_str.clone(), weight));
-        // 无向图：向终点的邻接表添加起点和权重（双向边）
-        self.adjacency_table_mutable()
-            .get_mut(&to_str)
-            .unwrap()
-            .push((from_str, weight));
+
+    pub fn get(&mut self, index: i32) -> Option<&T> {
+        self.get_ith_node(self.start, index)
+    }
+
+    fn get_ith_node(&mut self, node: Option<NonNull<Node<T>>>, index: i32) -> Option<&T> {
+        match node {
+            None => None,
+            Some(next_ptr) => match index {
+                0 => Some(unsafe { &(*next_ptr.as_ptr()).val }),
+                _ => self.get_ith_node(unsafe { (*next_ptr.as_ptr()).next }, index - 1),
+            },
+        }
+    }
+	pub fn reverse(&mut self){
+		// TODO
+	}
+}
+
+impl<T> Display for LinkedList<T>
+where
+    T: Display,
+{
+    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+        match self.start {
+            Some(node) => write!(f, "{}", unsafe { node.as_ref() }),
+            None => Ok(()),
+        }
     }
 }
-pub trait Graph {
-    fn new() -> Self;
-    fn adjacency_table_mutable(&mut self) -> &mut HashMap<String, Vec<(String, i32)>>;
-    fn adjacency_table(&self) -> &HashMap<String, Vec<(String, i32)>>;
-    fn add_node(&mut self, node: &str) -> bool {
-        //TODO
-	     if self.contains(node) {
-            return false;
-        }
-        // 节点不存在，插入空邻接表并返回true（添加成功）
-        self.adjacency_table_mutable()
-            .insert(node.to_string(), Vec::new());
-        true
-    }
-    fn add_edge(&mut self, edge: (&str, &str, i32)) {
-        //TODO
-      let (from, to, weight) = edge;
-        self.add_node(from);
-        self.add_node(to);
-        let from_str = from.to_string();
-        let to_str = to.to_string();
-        self.adjacency_table_mutable()
-            .get_mut(&from_str)
-            .unwrap()
-            .push((to_str, weight));
-    }
-    fn contains(&self, node: &str) -> bool {
-        self.adjacency_table().get(node).is_some()
-    }
-    fn nodes(&self) -> HashSet<&String> {
-        self.adjacency_table().keys().collect()
-    }
-    fn edges(&self) -> Vec<(&String, &String, i32)> {
-        let mut edges = Vec::new();
-        for (from_node, from_node_neighbours) in self.adjacency_table() {
-            for (to_node, weight) in from_node_neighbours {
-                edges.push((from_node, to_node, *weight));
+
+impl<T> Display for Node<T>
+where
+    T: Display,
+{
+    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+        match self.next {
+            Some(node) => write!(f, "{}, {}", self.val, unsafe { node.as_ref() }),
+            None => write!(f, "{}", self.val),
             }
         }
         edges
     }
 }
+
 #[cfg(test)]
-mod test_undirected_graph {
-    use super::Graph;
-    use super::UndirectedGraph;
+mod tests {
+    use super::LinkedList;
+
     #[test]
-    fn test_add_edge() {
-        let mut graph = UndirectedGraph::new();
-        graph.add_edge(("a", "b", 5));
-        graph.add_edge(("b", "c", 10));
-        graph.add_edge(("c", "a", 7));
-        let expected_edges = [
-            (&String::from("a"), &String::from("b"), 5),
-            (&String::from("b"), &String::from("a"), 5),
-            (&String::from("c"), &String::from("a"), 7),
-            (&String::from("a"), &String::from("c"), 7),
-            (&String::from("b"), &String::from("c"), 10),
-            (&String::from("c"), &String::from("b"), 10),
-        ];
-        for edge in expected_edges.iter() {
-            assert_eq!(graph.edges().contains(edge), true);
+    fn create_numeric_list() {
+        let mut list = LinkedList::<i32>::new();
+        list.add(1);
+        list.add(2);
+        list.add(3);
+        println!("Linked List is {}", list);
+        assert_eq!(3, list.length);
+    }
+
+    #[test]
+    fn create_string_list() {
+        let mut list_str = LinkedList::<String>::new();
+        list_str.add("A".to_string());
+        list_str.add("B".to_string());
+        list_str.add("C".to_string());
+        println!("Linked List is {}", list_str);
+        assert_eq!(3, list_str.length);
+    }
+
+    #[test]
+    fn test_reverse_linked_list_1() {
+		let mut list = LinkedList::<i32>::new();
+		let original_vec = vec![2,3,5,11,9,7];
+		let reverse_vec = vec![7,9,11,5,3,2];
+		for i in 0..original_vec.len(){
+			list.add(original_vec[i]);
+		}
+		println!("Linked List is {}", list);
+		list.reverse();
+		println!("Reversed Linked List is {}", list);
+		for i in 0..original_vec.len(){
+			assert_eq!(reverse_vec[i],*list.get(i as i32).unwrap());
+		}
+	}
+
+	#[test]
+	fn test_reverse_linked_list_2() {
+		let mut list = LinkedList::<i32>::new();
+		let original_vec = vec![34,56,78,25,90,10,19,34,21,45];
+		let reverse_vec = vec![45,21,34,19,10,90,25,78,56,34];
+		for i in 0..original_vec.len(){
+			list.add(original_vec[i]);
+		}
+		println!("Linked List is {}", list);
+		list.reverse();
+		println!("Reversed Linked List is {}", list);
+		for i in 0..original_vec.len(){
+			assert_eq!(reverse_vec[i],*list.get(i as i32).unwrap());
         }
     }
 }
