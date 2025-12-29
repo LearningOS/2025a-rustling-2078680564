@@ -14,8 +14,8 @@
 use std::f32::consts::PI;
 
 fn main() {
-    let radius = 5.00; // 编译器自动推断为 f32
-    let area = PI * f32::powi(radius, 2);
+    let radius = 5.00;
+    let area = PI * radius * radius;
 
     println!(
         "The area of a circle with radius {:.2} is {:.5}!",
