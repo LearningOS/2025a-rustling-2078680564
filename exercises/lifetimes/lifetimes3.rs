@@ -7,9 +7,9 @@
 
 // I AM NOT DONE
 
-struct Book<'a> {
-    author: &'a str,
-    title: &'a str,
+struct Book {
+    author: &str,
+    title: &str,
 }
 
 fn main() {
