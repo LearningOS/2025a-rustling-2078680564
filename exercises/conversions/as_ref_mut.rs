@@ -11,26 +11,21 @@
 
 // Obtain the number of bytes (not characters) in the given argument.
 // TODO: Add the AsRef trait appropriately as a trait bound.
-fn byte_counter<T: AsRef<str>>(arg: T) -> usize {
+fn byte_counter<T>(arg: T) -> usize {
     arg.as_ref().as_bytes().len()
 }
 
 // Obtain the number of characters (not bytes) in the given argument.
 // TODO: Add the AsRef trait appropriately as a trait bound.
-fn char_counter<T: AsRef<str>>(arg: T) -> usize {
+fn char_counter<T>(arg: T) -> usize {
     arg.as_ref().chars().count()
 }
 
 // Squares a number using as_mut().
 // TODO: Add the appropriate trait bound.
-fn num_sq<T, N>(arg: &mut T)
-where
-    T: AsMut<N>,
-    N: std::ops::MulAssign<N> + Copy, // MulAssign支持自乘赋值，Copy支持值拷贝
-{
+fn num_sq<T>(arg: &mut T) {
     // TODO: Implement the function body.
-    let num_ref = arg.as_mut(); // 通过as_mut()获取可变数值引用
-    *num_ref *= *num_ref; // 平方赋值（等价于 *num_ref = *num_ref * *num_ref）
+    ???
 }
 
 #[cfg(test)]
