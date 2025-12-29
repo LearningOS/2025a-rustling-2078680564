@@ -7,7 +7,8 @@
 // hint.
 
 // I AM NOT DONE
+
 fn main() {
-    let mut shopping_list: Vec<String> = Vec::new();
-    shopping_list.push(String::from("milk")); // 或 "milk".to_string()
+    let mut shopping_list: Vec<?> = Vec::new();
+    shopping_list.push("milk");
 }
