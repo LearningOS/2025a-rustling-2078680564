@@ -11,23 +11,24 @@ fn main() {
     // 错误1修复：移除 None 上的 unwrap()，用安全判断
     let my_option: Option<()> = None;
     if my_option.is_none() {
-        println!("my_option is None, no unwrap needed");
+        my_option.unwrap();
     }
 
     // 错误2修复：补充数组缺失的逗号（Rustfmt 推荐）
     let my_arr = &[
-        -1, -2, -3,
-        -4, -5, -6, // 加逗号
+        -1, -2, -3
+        -4, -5, -6
     ];
     println!("My array! Here it is: {:?}", my_arr);
 
-    // 错误3/4/5修复：正确创建空Vec（或正确使用resize）
-    let my_empty_vec: Vec<i32> = Vec::new();
+    let my_empty_vec = vec![1, 2, 3, 4, 5].resize(0, 5);
     println!("This Vec is empty, see? {:?}", my_empty_vec);
 
     // 变量交换修复：实现真正的交换
     let mut value_a = 45;
     let mut value_b = 66;
-    std::mem::swap(&mut value_a, &mut value_b);
+    // Let's swap these two!
+    value_a = value_b;
+    value_b = value_a;
     println!("value a: {}; value b: {}", value_a, value_b);
 }
