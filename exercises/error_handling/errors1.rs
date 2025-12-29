@@ -11,13 +11,12 @@
 
 // I AM NOT DONE
 
-pub fn generate_nametag_text(name: String) -> Result<String, String> {
+pub fn generate_nametag_text(name: String) -> Option<String> {
     if name.is_empty() {
-        // 空名字返回指定的错误信息（Err）
-        Err("`name` was empty; it must be nonempty.".into())
+        // Empty names aren't allowed.
+        None
     } else {
-        // 非空名字返回成功的结果（Ok）
-        Ok(format!("Hi! My name is {}", name))
+        Some(format!("Hi! My name is {}", name))
     }
 }
 
