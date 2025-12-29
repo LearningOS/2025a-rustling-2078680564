@@ -8,10 +8,8 @@ fn main() {
     let mut res = 42;
     let option = Some(12);
 
-    // 明确匹配Some变体，提取包裹值x
-    if let Some(x) = option {
-        res += x;
-    }
+    // 使用 Option 的 `unwrap_or_default` 简化代码
+    res += option.unwrap_or_default();
 
     println!("{}", res); // 输出：54
 }
