@@ -4,12 +4,12 @@
 // hint.
 
 // I AM NOT DONE
+
 fn main() {
     let mut res = 42;
     let option = Some(12);
-
-    // 使用 Option 的 `unwrap_or_default` 简化代码
-    res += option.unwrap_or_default();
-
-    println!("{}", res); // 输出：54
+    for x in option {
+        res += x;
+    }
+    println!("{}", res);
 }
