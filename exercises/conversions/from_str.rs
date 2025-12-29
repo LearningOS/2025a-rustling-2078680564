@@ -87,7 +87,7 @@ impl FromStr for Person {
 
 fn main() {
     let p = "Mark,20".parse::<Person>().unwrap();
-    println!("{:?}", p); // 输出：Person { name: "Mark", age: 20 }
+    println!("{:?}", p);
 }
 
 #[cfg(test)]
