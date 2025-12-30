@@ -3,7 +3,6 @@
 // Execute `rustlings hint strings3` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
 
 fn trim_me(input: &str) -> String {
     // 去掉两端空格并转换为 String
@@ -17,7 +16,7 @@ fn compose_me(input: &str) -> String {
 
 fn replace_me(input: &str) -> String {
     // 使用 replace 方法替换子串
-    input.replace("cars", "balloons")
+     input.replace("cars", "balloons")
 }
 
 #[cfg(test)]

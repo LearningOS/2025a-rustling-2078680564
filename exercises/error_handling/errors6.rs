@@ -9,11 +9,11 @@
 // Execute `rustlings hint errors6` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
 
 use std::num::ParseIntError;
+use std::convert::From;
 
-// This is a custom error type that we will be using in `parse_pos_nonzero()`.
+// 自定义错误类型，包含两种可能的错误
 #[derive(PartialEq, Debug)]
 enum ParsePosNonzeroError {
     Creation(CreationError),
@@ -21,22 +21,39 @@ enum ParsePosNonzeroError {
 }
 
 impl ParsePosNonzeroError {
+    // 从 CreationError 转换
     fn from_creation(err: CreationError) -> ParsePosNonzeroError {
         ParsePosNonzeroError::Creation(err)
     }
-    // TODO: add another error conversion function here.
-    // fn from_parseint...
+    
+    // 从 ParseIntError 转换
+    fn from_parseint(err: ParseIntError) -> ParsePosNonzeroError {
+        ParsePosNonzeroError::ParseInt(err)
+    }
+}
+
+// 实现 From trait，以便使用 ? 操作符自动转换
+impl From<ParseIntError> for ParsePosNonzeroError {
+    fn from(err: ParseIntError) -> Self {
+        ParsePosNonzeroError::ParseInt(err)
+    }
+}
+
+impl From<CreationError> for ParsePosNonzeroError {
+    fn from(err: CreationError) -> Self {
+        ParsePosNonzeroError::Creation(err)
+    }
 }
 
 fn parse_pos_nonzero(s: &str) -> Result<PositiveNonzeroInteger, ParsePosNonzeroError> {
-    // TODO: change this to return an appropriate error instead of panicking
-    // when `parse()` returns an error.
-    let x: i64 = s.parse().unwrap();
-    PositiveNonzeroInteger::new(x).map_err(ParsePosNonzeroError::from_creation)
+    // 使用 ? 操作符处理 parse() 错误
+    let x: i64 = s.parse()?;
+    
+    // 使用 ? 操作符处理 new() 错误
+    Ok(PositiveNonzeroInteger::new(x)?)
 }
 
-// Don't change anything below this line.
-
+// 以下代码保持不变
 #[derive(PartialEq, Debug)]
 struct PositiveNonzeroInteger(u64);
 
@@ -62,7 +79,6 @@ mod test {
 
     #[test]
     fn test_parse_error() {
-        // We can't construct a ParseIntError, so we have to pattern match.
         assert!(matches!(
             parse_pos_nonzero("not a number"),
             Err(ParsePosNonzeroError::ParseInt(_))
@@ -87,8 +103,7 @@ mod test {
 
     #[test]
     fn test_positive() {
-        let x = PositiveNonzeroInteger::new(42);
-        assert!(x.is_ok());
-        assert_eq!(parse_pos_nonzero("42"), Ok(x.unwrap()));
+        let x = PositiveNonzeroInteger::new(42).unwrap();
+        assert_eq!(parse_pos_nonzero("42"), Ok(x));
     }
 }

@@ -7,13 +7,12 @@
 //
 // No hints this time!
 
-// I AM NOT DONE
 
 fn string_slice(arg: &str) {
     println!("{}", arg);
 }
 fn string(arg: String) {
-    println!("{}", arg);
+     println!("{}", arg);
 }
 
 fn main() {

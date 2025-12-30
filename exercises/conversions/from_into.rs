@@ -40,11 +40,11 @@ impl Default for Person {
 // If while parsing the age, something goes wrong, then return the default of
 // Person Otherwise, then return an instantiated Person object with the results
 
-// I AM NOT DONE
 
 // 核心实现：From<&str> for Person
 impl From<&str> for Person {
     fn from(s: &str) -> Person {
+    
         // 步骤1：空字符串返回默认值
         if s.is_empty() {
             return Person::default();

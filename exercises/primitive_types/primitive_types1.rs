@@ -5,15 +5,13 @@
 //
 // Execute `rustlings hint primitive_types1` or use the `hint` watch subcommand
 // for a hint.
-// I AM NOT DONE
-
 fn main() {
-    let is_morning = true;
+    let is_morning = false;
     if is_morning {
         println!("Good morning!");
     }
 
-    let is_evening = true; // 改成 true 以输出
+    let is_evening = true;
     if is_evening {
         println!("Good evening!");
     }

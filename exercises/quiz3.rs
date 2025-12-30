@@ -16,7 +16,6 @@
 //
 // Execute `rustlings hint quiz3` or use the `hint` watch subcommand for a hint.
 
-// I AM NOT DONE
 
 use std::fmt;
 
@@ -52,7 +51,7 @@ mod tests {
 
     #[test]
     fn generate_alphabetic_report_card() {
-        // TODO: Make sure to change the grade here after you finish the exercise.
+        // 将成绩改为字母型 "A+"
         let report_card = ReportCard {
             grade: "A+",
             student_name: "Gary Plotter".to_string(),

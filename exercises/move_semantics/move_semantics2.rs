@@ -7,16 +7,20 @@
 // Execute `rustlings hint move_semantics2` or use the `hint` watch subcommand
 // for a hint.
 
-
 fn main() {
-    let vec0 = Vec::new();
+    // Initialize vec0 with the filled vector from fill_vec
+    let vec0 = fill_vec(Vec::new());
 
-    let mut vec1 = fill_vec(vec0.clone());
+    // Clone vec0 to create vec1 (mutable for modification)
+    let mut vec1 = vec0.clone();
 
+    // Print vec0 (now filled with [22, 44, 66])
     println!("{} has length {}, with contents: `{:?}`", "vec0", vec0.len(), vec0);
 
+    // Modify vec1 by adding 88
     vec1.push(88);
 
+    // Print vec1 (now [22, 44, 66, 88])
     println!("{} has length {}, with contents `{:?}`", "vec1", vec1.len(), vec1);
 }
 

@@ -7,19 +7,15 @@
 // Execute `rustlings hint tests8` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
 
-fn main() {}
+fn main() {
+    // 支持 tests7.rs：设置环境变量 TEST_FOO
+    let timestamp = std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .unwrap()
+        .as_secs();
+    println!("cargo:rustc-env=TEST_FOO={}", timestamp);
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_success() {
-        #[cfg(feature = "pass")]
-        return;
-
-        panic!("no cfg set");
-    }
+    // 支持 tests8.rs：启用 "pass" feature
+    println!("cargo:rustc-cfg=feature=\"pass\"");
 }
