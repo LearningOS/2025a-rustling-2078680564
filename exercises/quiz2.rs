@@ -33,7 +33,7 @@ mod my_module {
     // 补全函数签名
     pub fn transformer(input: &Vec<(String, Command)>) -> Vec<String> {
         // 补全输出声明
-        let mut output: Vec<String> = vec![];
+        let mut output:  Vec<String> = vec![];
         for (string, command) in input.iter() {
             // 补全函数体
             match command {
