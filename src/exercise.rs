@@ -21,7 +21,7 @@ fn temp_file() -> String {
         .chars()
         .filter(|c| c.is_alphanumeric())
         .collect();
-
+ 
     format!("./temp_{}_{thread_id}", process::id())
 }
 
