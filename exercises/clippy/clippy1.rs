@@ -14,7 +14,7 @@ use std::f32;
 use std::f32::consts::PI; // 导入标准库中的 π 常量
 
 fn main() {
-    let radius = 5.00f32;
+    let  radius = 5.00f32;
 
     let area = PI * f32::powi(radius, 2);
 
