@@ -92,7 +92,7 @@ mod tests {
     fn test_list_of_results() {
         assert_eq!(
             format!("{:?}", list_of_results()),
-            "[Ok(1), Ok(11), Ok(1426), Ok(3)]"
+            " [Ok(1), Ok(11), Ok(1426), Ok(3)]"
         );
     }
 }
